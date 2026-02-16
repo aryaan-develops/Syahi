@@ -4,18 +4,26 @@ import ThreeCanvas from './components/ThreeCanvas';
 import Auth from './components/Auth';
 import Library from './components/Library';
 import PrivateSanctuary from './components/PrivateSanctuary';
+import ShardsGallery from './components/ShardsGallery';
+import Flowers from './components/Flowers';
+import SharedBouquet from './components/SharedBouquet';
 import './App.css';
 import './Home.css';
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [view, setView] = useState('home'); // 'home', 'write', 'problem', 'library', 'auth', 'private'
+  const [view, setView] = useState('home'); // 'home', 'write', 'problem', 'library', 'auth', 'private', 'flowers'
   const [user, setUser] = useState(null);
   const [coupletContent, setCoupletContent] = useState('');
   const [blogTitle, setBlogTitle] = useState('');
   const [writingType, setWritingType] = useState('shayari'); // 'shayari' or 'blog'
   const [isPublic, setIsPublic] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [problemTitle, setProblemTitle] = useState('');
+  const [problemContent, setProblemContent] = useState('');
+  const [showShards, setShowShards] = useState(false); // Toggle between write/view in problem section
+  const [sharedBouquetId, setSharedBouquetId] = useState(null);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -27,6 +35,16 @@ function App() {
     audioRef.current = new Audio('/bg-music.mp3');
     audioRef.current.loop = true;
     audioRef.current.volume = 0.4;
+
+    // Check for shared bouquet link
+    const path = window.location.pathname;
+    if (path.startsWith('/bouquet/')) {
+      const id = path.split('/')[2];
+      if (id) {
+        setSharedBouquetId(id);
+        setView('shared-bouquet');
+      }
+    }
 
     return () => {
       if (audioRef.current) {
@@ -95,6 +113,70 @@ function App() {
     }
   };
 
+  const handleRefine = async () => {
+    if (!coupletContent.trim()) {
+      alert("The parchment is empty. Write something first.");
+      return;
+    }
+    if (!user) {
+      alert("You must be logged in to use Syahi's magic.");
+      setView('auth');
+      return;
+    }
+
+    setAiLoading(true);
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const res = await axios.post(`http://localhost:5000/api/blogs/refine`, { content: coupletContent }, config);
+      setCoupletContent(res.data.refined);
+    } catch (error) {
+      alert(error.response?.data?.message || "The magic failed. Please try again.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const handleProblemSubmit = async () => {
+    if (!user) {
+      alert("You must be logged in to release your burden.");
+      setView('auth');
+      return;
+    }
+
+    if (!problemTitle.trim() || !problemContent.trim()) {
+      alert("Please provide both a title and the content of your silence.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      await axios.post(`http://localhost:5000/api/problems`, {
+        title: problemTitle,
+        content: problemContent
+      }, config);
+
+      alert("Your burden has been released into the silence. Seek solace in the Shards Gallery.");
+      setProblemTitle('');
+      setProblemContent('');
+      setShowShards(true);
+    } catch (error) {
+      alert(error.response?.data?.message || "The silence rejected your offering. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const renderHome = () => (
     <>
       <div className="user-account-btn">
@@ -130,7 +212,10 @@ function App() {
             </p>
             <p>Share your couplets...</p>
           </div>
-          <button className="btn-vintage" onClick={() => { setWritingType('shayari'); setView('write'); }}>Write Shayari</button>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <button className="btn-vintage" onClick={() => { setWritingType('shayari'); setView('write'); }}>Write Shayari</button>
+            <button className="btn-vintage" style={{ opacity: 0.8 }} onClick={() => { setWritingType('blog'); setView('write'); }}>Write Blog</button>
+          </div>
         </section>
 
         <section className="paper-card card-blog fade-in" style={{ animationDelay: '0.4s' }}>
@@ -145,10 +230,7 @@ function App() {
             </ul>
             <p style={{ marginTop: '1rem' }}>Read Blogs...</p>
           </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <button className="btn-vintage" onClick={() => setView('library')}>Library</button>
-            <button className="btn-vintage" style={{ opacity: 0.8 }} onClick={() => { setWritingType('blog'); setView('write'); }}>Write Blog</button>
-          </div>
+          <button className="btn-vintage" onClick={() => setView('library')}>Library</button>
         </section>
 
         <section className="paper-card card-problem fade-in" style={{ animationDelay: '0.6s' }}>
@@ -164,7 +246,26 @@ function App() {
               Find solace where whispers are understood.
             </p>
           </div>
-          <button className="btn-vintage" onClick={() => setView('problem')}>Pour Your Heart</button>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <button className="btn-vintage" onClick={() => { setShowShards(false); setView('problem'); }}>Pour Your Heart</button>
+            <button className="btn-vintage" style={{ opacity: 0.8 }} onClick={() => { setShowShards(true); setView('problem'); }}>View Shards</button>
+          </div>
+        </section>
+
+        <section className="paper-card card-flowers fade-in" style={{ animationDelay: '0.8s' }}>
+          <div className="push-pin"></div>
+          <span className="card-icon">🌸</span>
+          <h2 className="card-title">Flowers of Words</h2>
+          <div className="card-content">
+            <p style={{ fontSize: '1.1rem', fontStyle: 'italic', marginBottom: '1.2rem', color: 'var(--primary-sepia)' }}>
+              "A petal for every sentiment..."
+            </p>
+            <p style={{ fontSize: '1rem', opacity: 0.8, lineHeight: '1.7', marginBottom: '1rem' }}>
+              Send a virtual bloom with a message.<br />
+              Let your words bloom and sway.
+            </p>
+          </div>
+          <button className="btn-vintage" onClick={() => setView('flowers')}>Garden of Voices</button>
         </section>
       </main>
 
@@ -173,7 +274,7 @@ function App() {
   );
 
   const renderWrite = () => (
-    <div className="scroll-unroll-container">
+    <div className="scroll-unroll-container write-scroll">
       <div className="scroll-handle handle-top"></div>
       <div className="scroll-paper">
         <div className="scroll-content">
@@ -201,14 +302,24 @@ function App() {
           </div>
 
           {writingType === 'blog' && (
-            <input
-              type="text"
-              placeholder="Title of your scroll..."
-              className="vintage-input"
-              value={blogTitle}
-              onChange={(e) => setBlogTitle(e.target.value)}
-              style={{ marginBottom: '1rem' }}
-            />
+            <div style={{ display: 'flex', gap: '1rem', width: '100%', marginBottom: '1rem' }}>
+              <input
+                type="text"
+                placeholder="Title of your scroll..."
+                className="vintage-input"
+                value={blogTitle}
+                onChange={(e) => setBlogTitle(e.target.value)}
+                style={{ marginBottom: 0, flex: 1 }}
+              />
+              <button
+                className="btn-vintage"
+                style={{ fontSize: '0.7rem', padding: '0 1rem' }}
+                onClick={handleRefine}
+                disabled={aiLoading}
+              >
+                {aiLoading ? '✨ Refining...' : '✨ Refine with Ink'}
+              </button>
+            </div>
           )}
 
           <textarea
@@ -245,7 +356,7 @@ function App() {
               onClick={handlePublish}
               disabled={loading}
             >
-              {loading ? "Sealing..." : "Seal Scroll"}
+              {loading ? "Sealing..." : (writingType === 'blog' ? "Submit Blog" : "Seal Scroll")}
             </button>
             <button className="btn-vintage" style={{ opacity: 0.6 }} onClick={() => setView('home')}>Close</button>
           </div>
@@ -256,20 +367,37 @@ function App() {
   );
 
   const renderProblem = () => (
-    <div className="scroll-unroll-container">
+    <div className="scroll-unroll-container problem-scroll">
       <div className="scroll-handle handle-top"></div>
       <div className="scroll-paper">
         <div className="scroll-content">
-          <h2 className="card-title">The Weight of Life</h2>
-          <input type="text" placeholder="A whisper of your burden..." className="vintage-input" />
-          <textarea
-            placeholder="Confide in the silence of these pages..."
-            className="vintage-textarea"
-          ></textarea>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <button className="btn-vintage">Seek Solace</button>
-            <button className="btn-vintage" style={{ opacity: 0.6 }} onClick={() => setView('home')}>Close Scroll</button>
-          </div>
+          {!showShards ? (
+            <>
+              <h2 className="card-title">The Weight of Life</h2>
+              <input
+                type="text"
+                placeholder="A whisper of your burden..."
+                className="vintage-input"
+                value={problemTitle}
+                onChange={(e) => setProblemTitle(e.target.value)}
+              />
+              <textarea
+                placeholder="Confide in the silence of these pages..."
+                className="vintage-textarea"
+                value={problemContent}
+                onChange={(e) => setProblemContent(e.target.value)}
+              ></textarea>
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '2rem' }}>
+                <button className="btn-vintage" onClick={handleProblemSubmit} disabled={loading}>
+                  {loading ? 'Releasing...' : 'Seek Solace'}
+                </button>
+                <button className="btn-vintage" style={{ opacity: 0.8 }} onClick={() => setShowShards(true)}>View Shards</button>
+                <button className="btn-vintage" style={{ opacity: 0.6 }} onClick={() => setView('home')}>Close</button>
+              </div>
+            </>
+          ) : (
+            <ShardsGallery user={user} onClose={() => setShowShards(false)} setView={setView} />
+          )}
         </div>
       </div>
       <div className="scroll-handle handle-bottom"></div>
@@ -295,7 +423,9 @@ function App() {
             setView={setView}
           />
         )}
-        {view === 'library' && <Library setView={setView} />}
+        {view === 'library' && <Library setView={setView} user={user} />}
+        {view === 'flowers' && <Flowers setView={setView} user={user} />}
+        {view === 'shared-bouquet' && <SharedBouquet bouquetId={sharedBouquetId} setView={setView} />}
 
         <footer className="footer-links fade-in" style={{ animationDelay: '0.8s' }}>
           <a href="#about">About Us</a>

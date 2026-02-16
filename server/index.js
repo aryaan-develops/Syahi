@@ -27,6 +27,9 @@ app.use((req, res, next) => {
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/couplets', require('./routes/coupletRoutes'));
 app.use('/api/blogs', require('./routes/blogRoutes'));
+app.use('/api/problems', require('./routes/problemRoutes'));
+app.use('/api/flowers', require('./routes/flowerRoutes'));
+app.use('/api/bouquets', require('./routes/bouquetRoutes'));
 
 // Basic Route
 app.get('/', (req, res) => {

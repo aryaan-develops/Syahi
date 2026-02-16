@@ -13,6 +13,40 @@ const PrivateSanctuary = ({ user, handleLogout, setView }) => {
         }
     }, [user, tab]);
 
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to permanently erase this scroll? This action cannot be undone.")) return;
+
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            };
+
+            const endpoint = tab === 'shayari' ? `/api/couplets/${id}` : `/api/blogs/${id}`;
+            await axios.delete(`http://localhost:5000${endpoint}`, config);
+            fetchMyData(); // Refresh list
+        } catch (error) {
+            alert(error.response?.data?.message || "Failed to erase the scroll.");
+        }
+    };
+
+    const handleToggleVisibility = async (id) => {
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            };
+
+            const endpoint = tab === 'shayari' ? `/api/couplets/${id}/visibility` : `/api/blogs/${id}/visibility`;
+            await axios.patch(`http://localhost:5000${endpoint}`, {}, config);
+            fetchMyData(); // Refresh list
+        } catch (error) {
+            alert(error.response?.data?.message || "Failed to change visibility.");
+        }
+    };
+
     const fetchMyData = async () => {
         setLoading(true);
         try {
@@ -50,7 +84,7 @@ const PrivateSanctuary = ({ user, handleLogout, setView }) => {
 
                     <div className="card-content">
                         <div className="private-space-grid">
-                            <div className="paper-card" style={{ padding: '2rem', gridColumn: 'span 2' }}>
+                            <div className="paper-card" style={{ padding: '2rem' }}>
                                 <h3 style={{ color: 'var(--primary-sepia)', marginBottom: '1.5rem' }}>
                                     Your {tab === 'shayari' ? 'Whispers' : 'Chronicles'}
                                 </h3>
@@ -63,18 +97,47 @@ const PrivateSanctuary = ({ user, handleLogout, setView }) => {
                                             <div key={item._id} className="personal-scroll-item">
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                     <span className="scroll-date">{new Date(item.createdAt).toLocaleDateString()}</span>
-                                                    <span style={{
-                                                        fontSize: '0.6rem',
-                                                        color: item.isPublic ? '#4caf50' : '#ff9800',
-                                                        fontFamily: 'var(--font-heading)',
-                                                        textTransform: 'uppercase',
-                                                        letterSpacing: '1px'
-                                                    }}>
+                                                    <span
+                                                        onClick={() => handleToggleVisibility(item._id)}
+                                                        style={{
+                                                            fontSize: '0.65rem',
+                                                            color: item.isPublic ? '#4caf50' : '#ff9800',
+                                                            fontFamily: 'var(--font-heading)',
+                                                            textTransform: 'uppercase',
+                                                            letterSpacing: '1.5px',
+                                                            cursor: 'pointer',
+                                                            padding: '0.2rem 0.5rem',
+                                                            border: `1px solid ${item.isPublic ? 'rgba(76, 175, 80, 0.3)' : 'rgba(255, 152, 0, 0.3)'}`,
+                                                            borderRadius: '4px',
+                                                            transition: 'all 0.3s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => e.target.style.background = 'rgba(244, 208, 111, 0.1)'}
+                                                        onMouseLeave={(e) => e.target.style.background = 'none'}
+                                                        title="Click to toggle visibility"
+                                                    >
                                                         {item.isPublic ? '👁️ Public' : '🔒 Private'}
                                                     </span>
                                                 </div>
                                                 {tab === 'blogs' && <h4 style={{ fontFamily: 'var(--font-script)', color: 'var(--primary-sepia)', fontSize: '1.4rem', margin: '0.5rem 0' }}>{item.title}</h4>}
                                                 <p className="shayari-text small">{tab === 'blogs' ? item.content.substring(0, 100) + '...' : item.content}</p>
+                                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                                    <button
+                                                        onClick={() => handleDelete(item._id)}
+                                                        style={{
+                                                            background: 'none',
+                                                            border: 'none',
+                                                            color: '#ff3e3e',
+                                                            cursor: 'pointer',
+                                                            fontSize: '0.8rem',
+                                                            fontFamily: 'var(--font-heading)',
+                                                            opacity: 0.6
+                                                        }}
+                                                        onMouseEnter={(e) => e.target.style.opacity = 1}
+                                                        onMouseLeave={(e) => e.target.style.opacity = 0.6}
+                                                    >
+                                                        🗑️ Erase Scroll
+                                                    </button>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -84,17 +147,25 @@ const PrivateSanctuary = ({ user, handleLogout, setView }) => {
                             </div>
 
                             <div className="paper-card" style={{ padding: '2rem' }}>
-                                <h3 style={{ color: 'var(--primary-sepia)', marginBottom: '1rem' }}>Shadow Profile</h3>
-                                <p style={{ fontSize: '0.9rem' }}>Codename: {user?.username}</p>
-                                <p style={{ fontSize: '0.9rem' }}>Email: {user?.email}</p>
-                                <p style={{ fontSize: '0.9rem' }}>Joined: {new Date().toLocaleDateString()}</p>
+                                <h3 style={{ color: 'var(--primary-sepia)', marginBottom: '1.5rem' }}>Shadow Profile</h3>
+                                <div style={{ textAlign: 'left', fontStyle: 'normal' }}>
+                                    <p style={{ fontSize: '1rem', marginBottom: '0.8rem' }}><strong>Codename:</strong> {user?.username}</p>
+                                    <p style={{ fontSize: '1rem', marginBottom: '0.8rem' }}><strong>Email:</strong> {user?.email}</p>
+                                    <p style={{ fontSize: '1.1rem', marginBottom: '0.8rem', color: '#ff3e3e' }}>
+                                        <strong>❤️ Admiration Seals:</strong> {
+                                            myScrolls.reduce((acc, curr) => acc + (curr.likes?.length || 0), 0) +
+                                            myBlogs.reduce((acc, curr) => acc + (curr.likes?.length || 0), 0)
+                                        }
+                                    </p>
+                                    <p style={{ fontSize: '1rem' }}><strong>Joined:</strong> {new Date().toLocaleDateString()}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem' }}>
-                        <button className="btn-vintage" onClick={handleLogout}>Vanish (Logout)</button>
-                        <button className="btn-vintage" style={{ opacity: 0.6 }} onClick={() => setView('home')}>Home</button>
+                    <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', marginTop: '4rem', paddingBottom: '2rem' }}>
+                        <button className="btn-vintage" onClick={() => setView('home')}>Home</button>
+                        <button className="btn-vintage" style={{ opacity: 0.7 }} onClick={handleLogout}>Vanish (Logout)</button>
                     </div>
                 </div>
             </div>
