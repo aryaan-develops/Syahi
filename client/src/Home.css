@@ -1,0 +1,556 @@
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6rem;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.main-title {
+    font-size: 7.5rem;
+    font-family: var(--font-script);
+    color: var(--primary-sepia);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(244, 208, 111, 0.4), 0 0 20px rgba(244, 208, 111, 0.2);
+    animation: titleGlow 4s infinite alternate ease-in-out;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 10px rgba(244, 208, 111, 0.4), 0 0 20px rgba(244, 208, 111, 0.2);
+        transform: scale(1);
+    }
+
+    to {
+        text-shadow: 0 0 25px rgba(244, 208, 111, 1), 0 0 50px rgba(244, 208, 111, 0.4);
+        transform: scale(1.02);
+    }
+}
+
+.subtitle {
+    font-size: 1.6rem;
+    font-family: var(--font-heading);
+    letter-spacing: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 1rem auto 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #f4d06f;
+    width: 0;
+    display: table;
+    /* Centers the limited width line */
+
+    /* Vibrant Poetic Gradient */
+    background: linear-gradient(90deg,
+            #f4d06f,
+            /* Gold */
+            #ff3e3e,
+            /* Deep Red */
+            #ff9a9e,
+            /* Soft Pink */
+            #f4d06f
+            /* Back to Gold */
+        );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Animations */
+    animation:
+        typing 4s steps(28, end) 1s forwards,
+        blinkCursor 0.8s step-end infinite,
+        colorShift 5s linear infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 52rem
+    }
+
+    /* Increased width for 12px spacing */
+}
+
+@keyframes blinkCursor {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--gold-glow)
+    }
+}
+
+@keyframes colorShift {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    width: 100%;
+}
+
+@media (max-width: 1000px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+}
+
+/* Atmospheric Paper Cards */
+.paper-card {
+    background: linear-gradient(135deg, #1a1510 0%, #0d0906 100%);
+    border: 1px solid rgba(122, 92, 55, 0.2);
+    padding: 4rem 2.5rem;
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(244, 208, 111, 0.05);
+    position: relative;
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    clip-path: polygon(0% 0%, 5% 1%, 10% 0%, 15% 2%, 20% 0%, 25% 1%, 30% 0%, 35% 2%, 40% 0%, 45% 1%, 50% 0%, 55% 2%, 60% 0%, 65% 1%, 70% 0%, 75% 2%, 80% 0%, 85% 1%, 90% 0%, 95% 2%, 100% 0%,
+            99% 5%, 100% 10%, 98% 15%, 100% 20%, 99% 25%, 100% 30%, 98% 35%, 100% 40%, 99% 45%, 100% 50%, 98% 55%, 100% 60%, 99% 65%, 100% 70%, 98% 75%, 100% 80%, 99% 85%, 100% 90%, 98% 95%, 100% 100%,
+            95% 99%, 90% 100%, 85% 98%, 80% 100%, 75% 99%, 70% 100%, 65% 98%, 60% 100%, 55% 99%, 50% 100%, 45% 98%, 40% 100%, 35% 99%, 30% 100%, 25% 98%, 20% 100%, 15% 99%, 10% 100%, 5% 98%, 0% 100%,
+            1% 95%, 0% 90%, 2% 85%, 0% 80%, 1% 75%, 0% 70%, 2% 65%, 0% 60%, 1% 55%, 0% 50%, 2% 45%, 0% 40%, 1% 35%, 0% 30%, 2% 25%, 0% 20%, 1% 15%, 0% 10%, 2% 5%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.paper-card:hover {
+    transform: translateY(-20px) scale(1.05);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), 0 0 30px rgba(244, 208, 111, 0.1);
+    border-color: rgba(244, 208, 111, 0.4);
+}
+
+.card-shayari-pen {
+    background: linear-gradient(rgba(12, 8, 5, 0.8), rgba(12, 8, 5, 0.8)), url('/shayari-pen-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border: 1px solid rgba(244, 208, 111, 0.3) !important;
+}
+
+.card-shayari-pen:hover {
+    background: linear-gradient(rgba(12, 8, 5, 0.5), rgba(12, 8, 5, 0.6)), url('/shayari-pen-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.card-blog {
+    background: linear-gradient(rgba(12, 8, 5, 0.85), rgba(12, 8, 5, 0.85)), url('/blog-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border: 1px solid rgba(244, 208, 111, 0.3) !important;
+}
+
+.card-blog:hover {
+    background: linear-gradient(rgba(12, 8, 5, 0.6), rgba(12, 8, 5, 0.7)), url('/blog-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.card-problem {
+    background:
+        linear-gradient(rgba(12, 8, 5, 0.92), rgba(12, 8, 5, 0.88)),
+        url('/problem-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border: 1px solid rgba(244, 208, 111, 0.2) !important;
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(244, 208, 111, 0.03) !important;
+}
+
+.card-problem:hover {
+    background:
+        linear-gradient(rgba(12, 8, 5, 0.65), rgba(12, 8, 5, 0.75)),
+        url('/problem-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    border-color: var(--primary-sepia) !important;
+}
+
+.paper-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+}
+
+.card-title {
+    font-family: var(--font-script);
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-sepia);
+    z-index: 2;
+}
+
+.card-content {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 2;
+    margin-bottom: 2.5rem;
+    color: var(--ink-color);
+    font-style: italic;
+    opacity: 0.85;
+    z-index: 2;
+}
+
+.card-icon {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(244, 208, 111, 0.6));
+    z-index: 2;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.paper-card:hover .card-icon {
+    transform: scale(1.3) rotate(-10deg);
+}
+
+/* SCROLL UNROLLING ANIMATION - Richer version */
+.scroll-unroll-container {
+    perspective: 1200px;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.scroll-paper {
+    background: linear-gradient(to right, #2c1e14 0%, #1a1510 50%, #2c1e14 100%);
+    min-height: 50px;
+    width: 100%;
+    position: relative;
+    padding: 0 4rem;
+    transform-origin: top;
+    animation: unrollScroll 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    overflow: hidden;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+}
+
+.scroll-handle {
+    width: calc(100% + 60px);
+    height: 35px;
+    background: linear-gradient(to bottom, #3d2b1f, #1a120b, #3d2b1f);
+    position: absolute;
+    left: -30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.9), inset 2px 2px 5px rgba(255, 255, 255, 0.1);
+    z-index: 30;
+    border: 1px solid rgba(122, 92, 55, 0.3);
+}
+
+.handle-top {
+    top: 0;
+}
+
+.handle-bottom {
+    bottom: 0;
+    animation: moveBottomHandle 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes unrollScroll {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+
+    100% {
+        height: 700px;
+        opacity: 1;
+    }
+}
+
+@keyframes moveBottomHandle {
+    0% {
+        bottom: 100%;
+    }
+
+    100% {
+        bottom: 0;
+    }
+}
+
+.scroll-content {
+    padding: 6rem 3rem;
+    opacity: 0;
+    animation: fadeInContent 1.2s 1.2s forwards;
+    z-index: 5;
+}
+
+@keyframes fadeInContent {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Decorations */
+.wax-seal {
+    position: absolute;
+    top: -60px;
+    left: -80px;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, #a00000 0%, #300000 100%);
+    border-radius: 50%;
+    box-shadow: 15px 15px 35px rgba(0, 0, 0, 0.8), inset -5px -5px 15px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-sepia);
+    font-size: 4.5rem;
+    border: 8px solid #400000;
+    transform: rotate(-15deg);
+    z-index: 40;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    animation: stampSeal 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseSeal 4s infinite alternate 2s;
+}
+
+@keyframes stampSeal {
+    0% {
+        transform: scale(3) rotate(-45deg);
+        opacity: 0;
+        filter: blur(10px);
+    }
+
+    70% {
+        transform: scale(0.9) rotate(-15deg);
+        opacity: 1;
+        filter: blur(0);
+    }
+
+    100% {
+        transform: scale(1) rotate(-15deg);
+    }
+}
+
+@keyframes pulseSeal {
+    from {
+        box-shadow: 15px 15px 35px rgba(0, 0, 0, 0.8);
+    }
+
+    to {
+        box-shadow: 0 0 50px rgba(160, 0, 0, 0.5), 15px 15px 35px rgba(0, 0, 0, 0.8);
+    }
+}
+
+.wax-seal:hover {
+    filter: brightness(1.4) contrast(1.2);
+    transform: rotate(-10deg) scale(1.15) translate(10px, 10px);
+    box-shadow: 25px 25px 50px rgba(0, 0, 0, 0.9);
+}
+
+.wax-seal::after {
+    content: "🖋️";
+    /* Quill pen icon */
+    font-size: 5rem;
+    opacity: 0.6;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
+}
+
+.push-pin {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #330000);
+    border-radius: 50%;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.coffee-stain {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 8px solid rgba(244, 208, 111, 0.03);
+    border-radius: 53% 47% 52% 48% / 51% 49% 51% 49%;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(2px);
+}
+
+.stain-1 {
+    top: -2%;
+    left: -8%;
+    transform: rotate(35deg);
+}
+
+.stain-2 {
+    bottom: -2%;
+    right: -8%;
+    transform: rotate(-25deg);
+    border-width: 10px;
+}
+
+.footer-links {
+    margin-top: 8rem;
+    display: flex;
+    gap: 4rem;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--secondary-sepia);
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+}
+
+.footer-links a:hover {
+    color: var(--primary-sepia);
+    text-shadow: 0 0 15px rgba(244, 208, 111, 0.6);
+}
+
+.sound-toggle {
+    position: fixed;
+    top: 4rem;
+    right: 4rem;
+    font-size: 3rem;
+    cursor: pointer;
+    color: var(--primary-sepia);
+    opacity: 0.4;
+    transition: all 0.5s ease;
+    z-index: 100;
+}
+
+.sound-toggle:hover {
+    opacity: 1;
+    transform: scale(1.3) rotate(15deg);
+    filter: drop-shadow(0 0 20px rgba(244, 208, 111, 0.8));
+}
+
+/* Forms in Scroll - Ultra Moody */
+.vintage-input,
+.vintage-textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(244, 208, 111, 0.1);
+    border-bottom: 2px solid var(--secondary-sepia);
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: var(--ink-color);
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    outline: none;
+    transition: all 0.5s ease;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.vintage-textarea {
+    min-height: 300px;
+    resize: none;
+}
+
+.vintage-input:focus,
+.vintage-textarea:focus {
+    background: rgba(244, 208, 111, 0.05);
+    border-color: var(--primary-sepia);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(244, 208, 111, 0.1);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .home-container {
+        padding: 4rem 1.5rem;
+        gap: 4rem;
+    }
+
+    .main-title {
+        font-size: 4rem;
+        letter-spacing: 1px;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 4px;
+        white-space: normal;
+        /* Allow wrap if typing width is exceeded */
+        display: block;
+        text-align: center;
+        width: auto !important;
+        /* Reset width for mobile */
+        max-width: 90vw;
+        border-right: none;
+        animation: colorShift 5s linear infinite;
+        /* Keep color shift but stop typing on tiny screens */
+    }
+
+    @keyframes typingMobile {
+        from {
+            width: 0
+        }
+
+        to {
+            width: 90vw
+        }
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        width: 100%;
+    }
+
+    .paper-card {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .card-title {
+        font-size: 2.2rem;
+    }
+
+    .sound-toggle {
+        top: 2rem;
+        right: 2rem;
+        font-size: 2.5rem;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+        margin-top: 5rem;
+    }
+
+    .main-title::after {
+        width: 15rem;
+    }
+}

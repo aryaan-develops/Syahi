@@ -1,0 +1,179 @@
+:root {
+  --primary-sepia: #f4d06f;
+  /* Warm Candle Glow Gold */
+  --secondary-sepia: #7a5c37;
+  /* Aged Wood Brown */
+  --accent-crimson: #5e0b0b;
+  /* Deep Inkwell Red */
+  --paper-bg: #0c0805;
+  /* Deep Midnight shadow */
+  --ink-color: #d1b894;
+  /* Faded Gold Ink */
+  --font-script: 'Great Vibes', cursive;
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'Cardo', serif;
+  --font-serif: 'Playfair Display', serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--paper-bg);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: transparent;
+  color: var(--ink-color);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  /* Feather Pen Cursor */
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size: 24px;'><text y='20'>✒️</text></svg>"), auto;
+}
+
+/* Rich Atmospheric Background from Image */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(244, 208, 111, 0.12) 0%, transparent 50%),
+    /* Candle light peak */
+    radial-gradient(circle at 90% 80%, rgba(94, 11, 11, 0.08) 0%, transparent 60%),
+    /* Inkwell reflection */
+    linear-gradient(135deg, rgba(20, 15, 10, 0.85) 0%, rgba(5, 3, 2, 0.92) 100%),
+    url('/home-bg-1.jpg');
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  z-index: -2;
+  filter: sepia(0.2) contrast(1.1);
+}
+
+/* Candle Flicker Effect Overlay */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 10% 10%, rgba(244, 208, 111, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 100;
+  animation: candleFlicker 6s infinite alternate;
+}
+
+@keyframes candleFlicker {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  25% {
+    opacity: 0.4;
+    transform: scale(1.02);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: scale(0.98);
+  }
+
+  75% {
+    opacity: 0.5;
+    transform: scale(1.01);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  color: var(--primary-sepia);
+  text-shadow: 0 0 15px rgba(244, 208, 111, 0.3);
+}
+
+.script-font {
+  font-family: var(--font-script);
+}
+
+.serif-font {
+  font-family: var(--font-serif);
+}
+
+/* Premium Buttons */
+.btn-vintage {
+  background: linear-gradient(135deg, rgba(122, 92, 55, 0.2), rgba(44, 30, 20, 0.4));
+  border: 1px solid var(--secondary-sepia);
+  color: var(--primary-sepia);
+  padding: 0.9rem 2rem;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  border-radius: 4px;
+  /* More classic look */
+  margin-top: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-vintage:hover {
+  background: var(--primary-sepia);
+  color: #0c0805;
+  box-shadow: 0 0 30px rgba(244, 208, 111, 0.4);
+  transform: translateY(-3px);
+  border-color: #fff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) blur(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050302;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-sepia);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-sepia);
+}
