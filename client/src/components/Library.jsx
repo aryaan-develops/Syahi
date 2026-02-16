@@ -19,7 +19,7 @@ const Library = ({ setView, user }) => {
     const fetchShayari = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/api/couplets');
+            const res = await axios.get('https://syahi-a9ml.onrender.com/api/couplets');
             setShayariList(res.data);
         } catch (error) {
             console.error("Failed to fetch shayari:", error);
@@ -31,7 +31,7 @@ const Library = ({ setView, user }) => {
     const fetchBlogs = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/api/blogs');
+            const res = await axios.get('https://syahi-a9ml.onrender.com/api/blogs');
             setBlogList(res.data);
         } catch (error) {
             console.error("Failed to fetch blogs:", error);

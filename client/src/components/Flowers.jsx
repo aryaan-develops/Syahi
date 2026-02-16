@@ -36,7 +36,7 @@ const Flowers = ({ user, setView }) => {
     const fetchPublicBouquets = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/api/bouquets/public');
+            const res = await axios.get('https://syahi-a9ml.onrender.com/api/bouquets/public');
             setBouquets(res.data);
         } catch (error) {
             console.error("Failed to fetch bouquets:", error);
@@ -47,7 +47,7 @@ const Flowers = ({ user, setView }) => {
 
     const fetchPublicCouplets = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/couplets'); // Already public route
+            const res = await axios.get('https://syahi-a9ml.onrender.com/api/couplets'); // Already public route
             setPublicCouplets(res.data.filter(c => c.isPublic));
         } catch (error) {
             console.error("Failed to fetch couplets:", error);
@@ -86,7 +86,7 @@ const Flowers = ({ user, setView }) => {
                 isPublic
             };
 
-            const res = await axios.post('http://localhost:5000/api/bouquets', payload, config);
+            const res = await axios.post('https://syahi-a9ml.onrender.com/api/bouquets', payload, config);
 
             if (isPublic) {
                 setBouquets([res.data, ...bouquets]);
@@ -137,7 +137,7 @@ const Flowers = ({ user, setView }) => {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            await axios.delete(`http://localhost:5000/api/bouquets/${id}`, config);
+            await axios.delete(`https://syahi-a9ml.onrender.com/api/bouquets/${id}`, config);
             setBouquets(bouquets.filter(b => b._id !== id));
             setSelectedBouquet(null);
             alert("The bouquet has vanished.");

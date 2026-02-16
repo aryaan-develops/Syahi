@@ -14,7 +14,7 @@ const ShardsGallery = ({ user, onClose, setView }) => {
     const fetchShards = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('http://localhost:5000/api/problems');
+            const res = await axios.get('https://syahi-a9ml.onrender.com/api/problems');
             setShards(res.data);
         } catch (error) {
             console.error("Failed to fetch shards:", error);
@@ -39,7 +39,7 @@ const ShardsGallery = ({ user, onClose, setView }) => {
                 },
             };
 
-            const res = await axios.post(`http://localhost:5000/api/problems/${shardId}/solace`, {
+            const res = await axios.post(`https://syahi-a9ml.onrender.com/api/problems/${shardId}/solace`, {
                 content: solaceInput
             }, config);
 
@@ -60,7 +60,7 @@ const ShardsGallery = ({ user, onClose, setView }) => {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            await axios.delete(`http://localhost:5000/api/problems/${shardId}`, config);
+            await axios.delete(`https://syahi-a9ml.onrender.com/api/problems/${shardId}`, config);
             setShards(shards.filter(s => s._id !== shardId));
             alert("The burden has been erased from the archives.");
         } catch (error) {
@@ -76,7 +76,7 @@ const ShardsGallery = ({ user, onClose, setView }) => {
                     Authorization: `Bearer ${user.token}`,
                 },
             };
-            const res = await axios.delete(`http://localhost:5000/api/problems/${shardId}/solace/${solaceId}`, config);
+            const res = await axios.delete(`https://syahi-a9ml.onrender.com/api/problems/${shardId}/solace/${solaceId}`, config);
             setShards(shards.map(s => s._id === shardId ? res.data : s));
             alert("The solace has been retracted.");
         } catch (error) {

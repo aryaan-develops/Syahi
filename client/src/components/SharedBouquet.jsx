@@ -17,7 +17,7 @@ const SharedBouquet = ({ bouquetId, setView }) => {
     useEffect(() => {
         const fetchBouquet = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/bouquets/${bouquetId}`);
+                const res = await axios.get(`https://syahi-a9ml.onrender.com/api/bouquets/${bouquetId}`);
                 setBouquet(res.data);
             } catch (err) {
                 setError("This bouquet has withered or never bloomed.");

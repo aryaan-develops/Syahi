@@ -11,7 +11,7 @@ const Auth = ({ setView, onLogin }) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const API_URL = 'http://localhost:5000/api/auth';
+    const API_URL = 'https://syahi-a9ml.onrender.com/api/auth';
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
