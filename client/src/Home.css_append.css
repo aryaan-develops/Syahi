@@ -1,0 +1,66 @@
+.blog-excerpt {
+    font-family: var(--font-serif);
+    color: var(--ink-color);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Private Sanctuary List */
+.personal-scrolls-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 1rem;
+    text-align: left;
+}
+
+.personal-scroll-item {
+    border-bottom: 1px solid rgba(244, 208, 111, 0.1);
+    padding: 1.5rem 0;
+}
+
+.shayari-text.small {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+.scroll-date {
+    font-size: 0.7rem;
+    color: var(--secondary-sepia);
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+}
+
+.personal-scrolls-list::-webkit-scrollbar {
+    width: 3px;
+}
+
+.personal-scrolls-list::-webkit-scrollbar-thumb {
+    background: var(--secondary-sepia);
+}
+
+/* Vintage Radio Styles */
+.vintage-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    color: var(--secondary-sepia);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.vintage-radio input {
+    accent-color: var(--primary-sepia);
+    width: 1rem;
+    height: 1rem;
+}
+
+.privacy-toggle {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid rgba(244, 208, 111, 0.05);
+}

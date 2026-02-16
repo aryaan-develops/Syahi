@@ -288,7 +288,7 @@
     }
 
     100% {
-        height: 700px;
+        height: 800px;
         opacity: 1;
     }
 }
@@ -553,4 +553,332 @@
     .main-title::after {
         width: 15rem;
     }
+
+    /* Mobile Scroll Adjustments */
+    .scroll-unroll-container {
+        margin-top: 1rem;
+        perspective: none;
+        /* Disable perspective on mobile for better performance */
+    }
+
+    .scroll-paper {
+        padding: 0 1.5rem;
+        min-height: 400px;
+    }
+
+    .scroll-content {
+        padding: 4rem 1rem;
+    }
+
+    .scroll-handle {
+        width: calc(100% + 20px);
+        left: -10px;
+        height: 25px;
+    }
+
+    @keyframes unrollScroll {
+        0% {
+            height: 0;
+            opacity: 0;
+        }
+
+        100% {
+            height: auto;
+            min-height: 600px;
+            opacity: 1;
+        }
+    }
+
+    /* Mobile Library Adjustments */
+    .library-tabs {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .tab-btn {
+        font-size: 0.9rem;
+        padding: 0.3rem 0;
+    }
+
+    .library-card {
+        padding: 1.5rem;
+    }
+
+    .library-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .shayari-text {
+        font-size: 1rem;
+    }
+
+    /* Top Buttons Mobile Layout */
+    .user-account-btn {
+        top: 2rem;
+        left: 1.5rem;
+    }
+
+    .user-account-btn .btn-vintage {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.8rem;
+    }
+
+    /* Auth Form Mobile */
+    @keyframes unrollScrollAuth {
+        0% {
+            height: 0;
+            opacity: 0;
+        }
+
+        100% {
+            height: auto;
+            min-height: 850px;
+            opacity: 1;
+        }
+    }
+}
+
+/* Authentication Specific Styles */
+.auth-scroll .scroll-paper {
+    min-height: 900px;
+    animation: unrollScrollAuth 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.auth-scroll .scroll-content {
+    padding-top: 4rem;
+}
+
+@keyframes unrollScrollAuth {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+
+    100% {
+        height: 950px;
+        opacity: 1;
+    }
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input-group label {
+    font-family: var(--font-heading);
+    color: var(--secondary-sepia);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.auth-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-vintage-text {
+    background: none;
+    border: none;
+    color: var(--primary-sepia);
+    font-family: var(--font-serif);
+    font-style: italic;
+    cursor: pointer;
+    text-decoration: underline;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.btn-vintage-text:hover {
+    opacity: 1;
+}
+
+.auth-error {
+    color: #ff3e3e;
+    font-family: var(--font-serif);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+/* User Account Header */
+.user-account-btn {
+    position: fixed;
+    top: 4rem;
+    left: 4rem;
+    z-index: 100;
+}
+
+.private-space-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+/* Library Styles */
+.library-scroll .scroll-paper {
+    min-height: 800px;
+}
+
+.library-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid rgba(244, 208, 111, 0.2);
+    padding-bottom: 1rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-heading);
+    color: var(--secondary-sepia);
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+}
+
+.tab-btn.active {
+    opacity: 1;
+    color: var(--primary-sepia);
+    text-shadow: 0 0 10px rgba(244, 208, 111, 0.4);
+    border-bottom: 2px solid var(--primary-sepia);
+}
+
+.library-display {
+    text-align: left;
+}
+
+.library-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(244, 208, 111, 0.1);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.library-card:hover {
+    background: rgba(244, 208, 111, 0.03);
+    border-color: rgba(244, 208, 111, 0.3);
+}
+
+.library-card h3 {
+    font-family: var(--font-script);
+    color: var(--primary-sepia);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.shayari-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    white-space: pre-line;
+    line-height: 1.8;
+    color: var(--ink-color);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.author {
+    display: block;
+    text-align: right;
+    font-family: var(--font-heading);
+    color: var(--secondary-sepia);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.blog-date {
+    font-family: var(--font-heading);
+    color: var(--secondary-sepia);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.blog-excerpt {
+    font-family: var(--font-serif);
+    color: var(--ink-color);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Private Sanctuary List */
+.personal-scrolls-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 1rem;
+    text-align: left;
+}
+
+.personal-scroll-item {
+    border-bottom: 1px solid rgba(244, 208, 111, 0.1);
+    padding: 1.5rem 0;
+}
+
+.shayari-text.small {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+}
+
+.scroll-date {
+    font-size: 0.7rem;
+    color: var(--secondary-sepia);
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+}
+
+.personal-scrolls-list::-webkit-scrollbar {
+    width: 3px;
+}
+
+.personal-scrolls-list::-webkit-scrollbar-thumb {
+    background: var(--secondary-sepia);
+}
+
+/* Vintage Radio Styles */
+.vintage-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    color: var(--secondary-sepia);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.vintage-radio input {
+    accent-color: var(--primary-sepia);
+    width: 1rem;
+    height: 1rem;
+}
+
+.privacy-toggle {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid rgba(244, 208, 111, 0.05);
 }
