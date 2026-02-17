@@ -7,6 +7,7 @@ import PrivateSanctuary from './components/PrivateSanctuary';
 import ShardsGallery from './components/ShardsGallery';
 import Flowers from './components/Flowers';
 import SharedBouquet from './components/SharedBouquet';
+import API_BASE_URL from './api';
 import './App.css';
 import './Home.css';
 
@@ -100,7 +101,7 @@ function App() {
         ? { content: coupletContent, isPublic }
         : { title: blogTitle, content: coupletContent, isPublic };
 
-      await axios.post(`http://localhost:5000${endpoint}`, payload, config);
+      await axios.post(`${API_BASE_URL}${endpoint}`, payload, config);
       alert(`Your whispers have been sealed in the ${isPublic ? 'Grand Library' : 'Private Sanctuary'}.`);
       setCoupletContent('');
       setBlogTitle('');
@@ -132,7 +133,7 @@ function App() {
         },
       };
 
-      const res = await axios.post(`http://localhost:5000/api/blogs/refine`, { content: coupletContent }, config);
+      const res = await axios.post(`${API_BASE_URL}/api/blogs/refine`, { content: coupletContent }, config);
       setCoupletContent(res.data.refined);
     } catch (error) {
       alert(error.response?.data?.message || "The magic failed. Please try again.");
@@ -161,7 +162,7 @@ function App() {
         },
       };
 
-      await axios.post(`https://syahi-a9ml.onrender.com/api/problems`, {
+      await axios.post(`${API_BASE_URL}/api/problems`, {
         title: problemTitle,
         content: problemContent
       }, config);

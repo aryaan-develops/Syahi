@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../api';
 
 const PrivateSanctuary = ({ user, handleLogout, setView }) => {
     const [myScrolls, setMyScrolls] = useState([]);
@@ -24,7 +25,7 @@ const PrivateSanctuary = ({ user, handleLogout, setView }) => {
             };
 
             const endpoint = tab === 'shayari' ? `/api/couplets/${id}` : `/api/blogs/${id}`;
-            await axios.delete(`https://syahi-a9ml.onrender.com${endpoint}`, config);
+            await axios.delete(`${API_BASE_URL}${endpoint}`, config);
             fetchMyData(); // Refresh list
         } catch (error) {
             alert(error.response?.data?.message || "Failed to erase the scroll.");
@@ -40,7 +41,7 @@ const PrivateSanctuary = ({ user, handleLogout, setView }) => {
             };
 
             const endpoint = tab === 'shayari' ? `/api/couplets/${id}/visibility` : `/api/blogs/${id}/visibility`;
-            await axios.patch(`https://syahi-a9ml.onrender.com${endpoint}`, {}, config);
+            await axios.patch(`${API_BASE_URL}${endpoint}`, {}, config);
             fetchMyData(); // Refresh list
         } catch (error) {
             alert(error.response?.data?.message || "Failed to change visibility.");
@@ -57,10 +58,10 @@ const PrivateSanctuary = ({ user, handleLogout, setView }) => {
             };
 
             if (tab === 'shayari') {
-                const res = await axios.get('https://syahi-a9ml.onrender.com/api/couplets/mine', config);
+                const res = await axios.get(`${API_BASE_URL}/api/couplets/mine`, config);
                 setMyScrolls(res.data);
             } else {
-                const res = await axios.get('https://syahi-a9ml.onrender.com/api/blogs/mine', config);
+                const res = await axios.get(`${API_BASE_URL}/api/blogs/mine`, config);
                 setMyBlogs(res.data);
             }
         } catch (error) {

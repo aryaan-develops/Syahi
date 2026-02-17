@@ -5,7 +5,7 @@ const Couplet = require('../models/Couplet');
 // @route   POST /api/bouquets
 // @access  Private
 exports.createBouquet = async (req, res) => {
-    const { flowers, message, attachedShayari, receiver, isPublic } = req.body;
+    const { flowers, message, attachedShayari, receiver, isPublic, spotifyUrl, musicData, cakeType } = req.body;
 
     if (!flowers || flowers.length === 0) {
         return res.status(400).json({ message: 'A bouquet needs flowers to bloom' });
@@ -22,6 +22,9 @@ exports.createBouquet = async (req, res) => {
             attachedShayari,
             receiver: receiver || 'Collective Soul',
             isPublic: isPublic || false,
+            spotifyUrl,
+            musicData,
+            cakeType: cakeType || null,
             sender: req.user._id,
             senderName: req.user.username
         });

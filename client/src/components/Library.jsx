@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../api';
 
 const Library = ({ setView, user }) => {
     const [tab, setTab] = useState('shayari'); // 'shayari' or 'blogs'
@@ -19,7 +20,7 @@ const Library = ({ setView, user }) => {
     const fetchShayari = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('https://syahi-a9ml.onrender.com/api/couplets');
+            const res = await axios.get(`${API_BASE_URL}/api/couplets`);
             setShayariList(res.data);
         } catch (error) {
             console.error("Failed to fetch shayari:", error);
@@ -31,7 +32,7 @@ const Library = ({ setView, user }) => {
     const fetchBlogs = async () => {
         setLoading(true);
         try {
-            const res = await axios.get('https://syahi-a9ml.onrender.com/api/blogs');
+            const res = await axios.get(`${API_BASE_URL}/api/blogs`);
             setBlogList(res.data);
         } catch (error) {
             console.error("Failed to fetch blogs:", error);
@@ -54,7 +55,7 @@ const Library = ({ setView, user }) => {
             };
 
             const endpoint = type === 'shayari' ? `/api/couplets/${id}/like` : `/api/blogs/${id}/like`;
-            const res = await axios.post(`http://localhost:5000${endpoint}`, {}, config);
+            const res = await axios.post(`${API_BASE_URL}${endpoint}`, {}, config);
 
             // Update local state
             if (type === 'shayari') {

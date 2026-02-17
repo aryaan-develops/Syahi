@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../api';
 
 const SharedBouquet = ({ bouquetId, setView }) => {
     const [bouquet, setBouquet] = useState(null);
@@ -14,10 +15,32 @@ const SharedBouquet = ({ bouquetId, setView }) => {
         jasmine: { emoji: '🌼', color: '#fff5cc' }
     };
 
+    const cakeInfo = {
+        classic: { emoji: '🎂', name: 'Classic Cake' },
+        chocolate: { emoji: '🍫', name: 'Dark Chocolate' },
+        vanilla: { emoji: '🧁', name: 'Creamy Vanilla' },
+        redvelvet: { emoji: '🍰', name: 'Red Velvet' },
+        strawberry: { emoji: '🍰', name: 'Strawberry' },
+        butterscotch: { emoji: '🍮', name: 'Butterscotch' }
+    };
+
+    const getSpotifyEmbedUrl = (url) => {
+        if (!url) return null;
+        try {
+            const match = url.match(/spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]+)/);
+            if (match) {
+                return `https://open.spotify.com/embed/${match[1]}/${match[2]}`;
+            }
+            return null;
+        } catch (e) {
+            return null;
+        }
+    };
+
     useEffect(() => {
         const fetchBouquet = async () => {
             try {
-                const res = await axios.get(`https://syahi-a9ml.onrender.com/api/bouquets/${bouquetId}`);
+                const res = await axios.get(`${API_BASE_URL}/api/bouquets/${bouquetId}`);
                 setBouquet(res.data);
             } catch (err) {
                 setError("This bouquet has withered or never bloomed.");
@@ -38,7 +61,7 @@ const SharedBouquet = ({ bouquetId, setView }) => {
     );
 
     return (
-        <div className="scroll-unroll-container fade-in" style={{ maxWidth: '800px', margin: '2rem auto' }}>
+        <div className="scroll-unroll-container shared-bouquet-scroll fade-in" style={{ maxWidth: '800px', margin: '2rem auto' }}>
             <div className="scroll-handle handle-top"></div>
             <div className="scroll-paper">
                 <div className="scroll-content" style={{ textAlign: 'center' }}>
@@ -57,11 +80,24 @@ const SharedBouquet = ({ bouquetId, setView }) => {
                                 {flowerInfo[f]?.emoji || '🌸'}
                             </div>
                         ))}
+                        {bouquet.cakeType && (
+                            <div style={{
+                                position: 'absolute',
+                                bottom: '-30px',
+                                right: '20%',
+                                fontSize: '5rem',
+                                zIndex: 12,
+                                filter: 'drop-shadow(0 15px 20px rgba(0,0,0,0.4))',
+                                animation: 'sway 4s ease-in-out infinite'
+                            }}>
+                                {cakeInfo[bouquet.cakeType]?.emoji}
+                            </div>
+                        )}
                     </div>
 
                     <h2 className="card-title" style={{ fontSize: '3rem' }}>To {bouquet.receiver}</h2>
 
-                    <div className="letter-paper" style={{ background: '#fff9e6', padding: '3rem', borderRadius: '5px', margin: '3rem 0', boxShadow: '0 15px 40px rgba(0,0,0,0.3)', color: '#333', textAlign: 'left', transform: 'rotate(0.5deg)' }}>
+                    <div className="letter-paper" style={{ padding: '3rem', borderRadius: '5px', margin: '3rem 0', boxShadow: '0 15px 40px rgba(0,0,0,0.3)', color: '#333', textAlign: 'left', transform: 'rotate(0.5deg)' }}>
                         <p className="shayari-text" style={{ fontSize: '1.4rem', lineHeight: '1.8', color: '#313131', marginBottom: '2rem' }}>
                             {bouquet.message}
                         </p>
@@ -73,6 +109,38 @@ const SharedBouquet = ({ bouquetId, setView }) => {
                                     "{bouquet.attachedShayari.content}"
                                 </p>
                                 <p style={{ textAlign: 'right', fontSize: '0.9rem', color: '#aaa', marginTop: '1rem' }}>— {bouquet.attachedShayari.authorName}</p>
+                            </div>
+                        )}
+
+                        {bouquet.musicData && (
+                            <div className="vintage-player" style={{ margin: '2rem 0' }}>
+                                <div className="cd-container">
+                                    <div className="cd-disk">
+                                        <img src={bouquet.musicData.artworkUrl} alt="art" className="cd-artwork" />
+                                        <div className="cd-center"></div>
+                                    </div>
+                                </div>
+                                <div className="player-info">
+                                    <h4 style={{ color: 'var(--primary-sepia)', fontFamily: 'var(--font-heading)' }}>{bouquet.musicData.title}</h4>
+                                    <p style={{ color: '#888', fontStyle: 'italic' }}>{bouquet.musicData.artist}</p>
+                                    <audio controls className="vintage-audio-player">
+                                        <source src={bouquet.musicData.previewUrl} type="audio/mpeg" />
+                                    </audio>
+                                </div>
+                            </div>
+                        )}
+
+                        {bouquet.spotifyUrl && getSpotifyEmbedUrl(bouquet.spotifyUrl) && (
+                            <div style={{ marginTop: '2rem', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                                <iframe
+                                    src={getSpotifyEmbedUrl(bouquet.spotifyUrl)}
+                                    width="100%"
+                                    height="80"
+                                    frameBorder="0"
+                                    allowtransparency="true"
+                                    allow="encrypted-media"
+                                    title="Spotify Song"
+                                ></iframe>
                             </div>
                         )}
 

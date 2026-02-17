@@ -758,20 +758,44 @@
     background-position: center !important;
 }
 
-.flowers-scroll .scroll-paper {
-    background: linear-gradient(rgba(26, 15, 10, 0.9), rgba(13, 9, 6, 0.95)), radial-gradient(circle at center, rgba(122, 92, 55, 0.1) 0%, transparent 70%);
-    box-shadow: inset 0 0 100px rgba(160, 0, 0, 0.1);
+.flowers-scroll .scroll-paper,
+.shared-bouquet-scroll .scroll-paper {
+    background: linear-gradient(rgba(26, 15, 10, 0.8), rgba(13, 9, 6, 0.85)), url('/send-bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    box-shadow: 0 0 15px rgba(244, 208, 111, 0.2), inset 0 0 100px rgba(0, 0, 0, 0.5);
+    animation: unrollScroll 2s cubic-bezier(0.19, 1, 0.22, 1) forwards, neonPulse 4s infinite alternate ease-in-out;
+    border-left: 1px solid rgba(244, 208, 111, 0.3);
+    border-right: 1px solid rgba(244, 208, 111, 0.3);
+}
+
+@keyframes neonPulse {
+    0% {
+        box-shadow: 0 0 15px rgba(244, 208, 111, 0.2), inset 0 0 100px rgba(0, 0, 0, 0.5);
+        border-color: rgba(244, 208, 111, 0.2);
+    }
+
+    100% {
+        box-shadow: 0 0 35px rgba(255, 255, 0, 0.6), 0 0 10px rgba(255, 255, 0, 0.4), inset 0 0 100px rgba(0, 0, 0, 0.5);
+        border-color: rgba(255, 255, 0, 0.8);
+    }
 }
 
 .card-flowers {
     background:
         linear-gradient(rgba(13, 9, 6, 0.85), rgba(13, 9, 6, 0.95)),
-        radial-gradient(circle at 70% 20%, rgba(160, 0, 0, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 20% 80%, rgba(244, 208, 111, 0.05) 0%, transparent 40%) !important;
+        url('/111.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
     border: 1px solid rgba(160, 0, 0, 0.2) !important;
 }
 
 .card-flowers:hover {
+    background:
+        linear-gradient(rgba(13, 9, 6, 0.6), rgba(13, 9, 6, 0.7)),
+        url('/111.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
     border-color: rgba(160, 0, 0, 0.5) !important;
     box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), 0 0 30px rgba(160, 0, 0, 0.1) !important;
 }
@@ -949,10 +973,12 @@
 }
 
 .letter-paper {
-    background-image: radial-gradient(#d1b894 1px, transparent 1px);
-    background-size: 20px 20px;
+    background: url('/msg-bg.jpg') center/cover no-repeat !important;
     position: relative;
-    border-radius: 2px !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(244, 208, 111, 0.2);
 }
 
 .letter-paper::before {
@@ -962,7 +988,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 250, 240, 0.85);
+    /* Keep text readable */
     z-index: 0;
 }
 
@@ -971,10 +998,144 @@
     z-index: 1;
 }
 
-.bouquet-wrap {
+/* Bouquet Ribbon Animation */
+.bouquet-ribbon {
+    animation: ribbonFloat 6s ease-in-out infinite;
+}
+
+@keyframes ribbonFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-5px) rotate(1deg);
+    }
+}
+
+/* Rose-Ivory Vintage Gramophone Player Styles */
+.vintage-player {
+    background: linear-gradient(135deg, #fff5f5, #fde2e2);
+    /* Light mix of red and white */
+    border: 2px solid #e2b4b4;
+    /* Soft rose border */
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+    margin-top: 2.5rem;
+    box-shadow:
+        0 8px 32px rgba(160, 0, 0, 0.08),
+        inset 0 0 20px rgba(255, 255, 255, 0.9);
+    position: relative;
+    border-bottom: 5px solid #d4a5a5;
+    overflow: visible;
+}
+
+/* Decorative Gramophone Horn Tip */
+.vintage-player::after {
+    content: '🎺';
+    position: absolute;
+    top: -25px;
+    right: 20px;
+    font-size: 2rem;
+    filter: sepia(1) saturate(2) brightness(0.8);
+    transform: rotate(-15deg);
+    opacity: 0.8;
+}
+
+.cd-container {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
     perspective: 1000px;
 }
 
-.flower-revealfade-in {
-    animation: fadeIn 1s ease-out forwards;
+.cd-disk {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    /* Vinyl Record Aesthetic */
+    background: repeating-radial-gradient(circle at center,
+            #1a1a1a 0px,
+            #222 2px,
+            #1a1a1a 4px);
+    border: 3px solid #d4af37;
+    position: relative;
+    overflow: hidden;
+    animation: rotateCD 5s linear infinite;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cd-artwork {
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #d4af37;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.cd-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: #d4af37;
+    border-radius: 50%;
+    border: 1px solid #b8860b;
+    z-index: 2;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes rotateCD {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.player-info {
+    flex: 1;
+    text-align: left;
+}
+
+.player-info h4 {
+    margin: 0;
+    color: #4a3728;
+    font-size: 1.25rem;
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.player-info p {
+    margin: 4px 0 12px;
+    font-size: 0.9rem;
+    color: #8c6a4a;
+    font-style: italic;
+    font-family: var(--font-serif);
+}
+
+.vintage-audio-player {
+    width: 100%;
+    height: 35px;
+    filter: sepia(0.5) hue-rotate(-10deg) saturate(1.2);
+    border-radius: 20px;
+}
+
+.bouquet-wrap {
+    perspective: 1500px;
 }

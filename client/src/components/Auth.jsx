@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../api';
 
 const Auth = ({ setView, onLogin }) => {
     const [isLogin, setIsLogin] = useState(true);
@@ -11,7 +12,7 @@ const Auth = ({ setView, onLogin }) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const API_URL = 'https://syahi-a9ml.onrender.com/api/auth';
+    const API_URL = `${API_BASE_URL}/api/auth`;
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

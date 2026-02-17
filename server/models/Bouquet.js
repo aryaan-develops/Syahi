@@ -34,6 +34,21 @@ const BouquetSchema = new mongoose.Schema({
         type: Boolean,
         default: false // Default to private link-only access
     },
+    spotifyUrl: {
+        type: String,
+        trim: true
+    },
+    musicData: {
+        title: String,
+        artist: String,
+        previewUrl: String,
+        artworkUrl: String
+    },
+    cakeType: {
+        type: String,
+        enum: [null, 'classic', 'chocolate', 'vanilla', 'redvelvet', 'strawberry', 'butterscotch'],
+        default: null
+    },
     createdAt: {
         type: Date,
         default: Date.now
